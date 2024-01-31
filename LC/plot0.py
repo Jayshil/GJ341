@@ -7,11 +7,11 @@ import juliet
 extract = 'NRCLW'
 
 # Input folder
-pin = os.getcwd() + '/' + extract + '/Analysis/V1'
-pout = os.getcwd() + '/' + extract + '/Analysis/FigV1'
+pin = os.getcwd() + '/' + extract + '/Analysis/Joint'
+pout = os.getcwd() + '/' + extract + '/Analysis/Figures'
 
 # Visit Number:
-instruments = np.array(['V1'])#, 'V2', 'V3', 'V4', 'V5'])
+instruments = np.array(['V1', 'V2', 'V3'])#, 'V4', 'V5'])
 
 dataset = juliet.load(input_folder=pin)
 res = dataset.fit(sampler='dynamic_dynesty')
