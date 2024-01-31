@@ -323,6 +323,22 @@ def eclipse_model(times, per, rp1, ar1, bb1, ecc, fp1, tsec1):
     flux1 = m1.light_curve(params)
     return flux1
 
+def transit_model(times, per, tc, rp1, ar1, bb1, q1, q2):
+    u1, u2 = juliet.utils.reverse_ld_coeffs('quadratic', q1, q2)
+    params = batman.TransitParams()
+    params.t0 = tc            
+    params.per = per
+    params.rp = rp1
+    params.a = ar1
+    params.inc = np.rad2deg(np.arccos(bb1/ar1))
+    params.ecc = 0.
+    params.w = 90.           # From Bourrier et al. (2018)
+    params.u = [u1, u2]
+    params.limb_dark = "quadratic"
+    m1 = batman.TransitModel(params, times)
+    flux1 = m1.light_curve(params)
+    return flux1
+
 def tot_model(times, per, rp1, ar1, bb1, ecc, fp1, tsec1, mflx, sig1, tht1, tht2, tht3):
     ecl_mod = eclipse_model(times, per, rp1, ar1, bb1, ecc, fp1, tsec1)
     phy_mod = ecl_mod/(1 + mflx)
