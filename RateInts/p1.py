@@ -27,7 +27,7 @@ for i in range(13):
         segs.append('0' + str(i+1))
 visit = 'V1'
 p1 = os.getcwd() + '/Data/' + visit + '_LW'
-p2 = os.getcwd() + '/RateInts/Corr_NRCLW'    # To store corrected files
+p2 = os.getcwd() + '/RateInts/Corr_NRCLW' + visit    # To store corrected files
 
 for i in range(len(segs)):
     t1 = time.time()
@@ -58,7 +58,7 @@ for i in range(len(segs)):
                                                         steps={'jump' : {'skip' : True},\
                                                                'dark_current' : {'skip' : True},
                                                                'ramp_fit' : {'maximum_cores' : 'half'}},\
-                                                        output_dir=os.getcwd() + '/RateInts/Ramp_NRCLW', save_results=True)
+                                                        output_dir=os.getcwd() + '/RateInts/Ramp_NRCLW' + visit, save_results=True)
 
         # Data quality mask
         dq = det1.dq
@@ -66,7 +66,7 @@ for i in range(len(segs)):
         mask[dq > 0] = 0.
 
         # Loading rate-ints files
-        fname_rate = glob(os.getcwd() + '/RateInts/Ramp_NRCLW/*' + seg + '_nrcalong_rateints.fits')[0]
+        fname_rate = glob(os.getcwd() + '/RateInts/Ramp_NRCLW' + visit + '/*' + seg + '_nrcalong_rateints.fits')[0]
         rate_ints = datamodels.open(fname_rate)
 
         ## Time
