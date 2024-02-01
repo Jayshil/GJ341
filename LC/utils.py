@@ -12,8 +12,8 @@ import batman
 def outlier_removal(tims, flx, flxe, clip=5, msk1=True, verbose=True):
     # Let's first mask transits and occultations
     if msk1==True:
-        per, T0 = 0.7365474, 2457063.2096  # From Bourrier et al. 2018
-        t14 = 0.9*(1.54/24)
+        per, T0 = 7.576863, 2459301.771
+        t14 = 0.9 * (2.3 / 24)
         phs_t = juliet.utils.get_phases(tims, per, T0)
         phs_e = juliet.utils.get_phases(tims, per, (T0+(per/2)))
 

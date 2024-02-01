@@ -64,7 +64,7 @@ for vis in range(len(visits)):
     tim[visits[vis]], fl[visits[vis]], fle[visits[vis]] = tim7, fl7/np.median(fl7), fle7/np.median(fl7)
 
     # Linear regressors
-    lins = np.vstack([tim7-np.mean(tim7)])#, (tim7-np.mean(tim7))**2])
+    lins = np.vstack([tim7-np.mean(tim7), (tim7-np.mean(tim7))**2])
     lin_pars[visits[vis]] = np.transpose(lins)
 
 # Some planetary parameters
