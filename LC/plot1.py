@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pickle
 from glob import glob
+from path import Path
 import os
 import utils as utl
 import matplotlib.gridspec as gd
@@ -17,6 +18,8 @@ extract = 'NRCLW'
 # Input folder
 pin = os.getcwd() + '/' + extract + '/Analysis/Joint'
 pout = os.getcwd() + '/' + extract + '/Analysis/Figures'
+if not Path(pout).exists():
+    os.mkdir(pout)
 
 # Visit Number:
 instrument = 'V1'

@@ -1,3 +1,5 @@
-python RateInts/p1.py
-python RateInts/p2.py
-python RateInts/p3.py
+python NRCLW/p1.py
+python NRCLW/p2.py
+python LC/p1.py
+python LC/plot0.py
+python LC/plot1.py

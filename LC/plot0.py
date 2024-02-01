@@ -1,4 +1,5 @@
 import numpy as np
+from path import Path
 import os
 import juliet
 
@@ -9,6 +10,8 @@ extract = 'NRCLW'
 # Input folder
 pin = os.getcwd() + '/' + extract + '/Analysis/Joint'
 pout = os.getcwd() + '/' + extract + '/Analysis/Figures'
+if not Path(pout).exists():
+    os.mkdir(pout)
 
 # Visit Number:
 instruments = np.array(['V1', 'V2', 'V3'])#, 'V4', 'V5'])
