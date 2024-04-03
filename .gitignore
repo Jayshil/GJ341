@@ -176,3 +176,7 @@ cython_debug/
 
 /RateInts/Corr_NRCLW
 /RateInts/Ramp_NRCLW
+
+/Groups/Outputs
+/Groups/Analysis
+/Groups/Stage1
