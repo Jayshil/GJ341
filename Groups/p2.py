@@ -37,7 +37,6 @@ for i in range(13):
         segs.append('00' + str(i+1))
     else:
         segs.append('0' + str(i+1))
-segs = ['013']
 
 for seg in range(len(segs)):
     t1 = time.time()

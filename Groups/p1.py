@@ -20,7 +20,6 @@ for i in range(13):
         segs.append('00' + str(i+1))
     else:
         segs.append('0' + str(i+1))
-segs = ['013']
 
 #segs = segs[-2:]
 p1 = os.getcwd() + '/Data/V3_LW'
