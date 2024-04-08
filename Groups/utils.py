@@ -1,6 +1,8 @@
 import numpy as np
 from photutils.aperture import CircularAnnulus, CircularAperture, ApertureStats
 from photutils.aperture import aperture_photometry as aphot
+from astropy.stats import SigmaClip, mad_std
+import juliet
 import warnings
 
 def replace_nan(data, max_iter = 50):
@@ -392,3 +394,47 @@ def computeRMS(data, maxnbins=None, binstep=1, isrmserr=False):
         return rms, stderr, binsz, rmserr
     else:
         return rms, stderr, binsz
+    
+def outlier_removal(tims, flx, flxe, clip=5, msk1=True, verbose=True):
+    # Let's first mask transits and occultations
+    if msk1==True:
+        per, T0 = 7.576863, 2459301.771
+        t14 = 0.9 * (2.3 / 24)
+        phs_t = juliet.utils.get_phases(tims, per, T0)
+        phs_e = juliet.utils.get_phases(tims, per, (T0+(per/2)))
+
+        mask = np.where((np.abs(phs_e*per) >= t14)&(np.abs(phs_t*per) >= t14))[0]
+        tim7, fl7, fle7 = tims[mask], flx[mask], flxe[mask]
+    else:
+        tim7, fl7, fle7 = tims, flx, flxe
+
+    # Sigma clipping
+    sc = SigmaClip(sigma_upper=clip, sigma_lower=clip, stdfunc=mad_std, maxiters=None)
+    msk1 = sc(fl7).mask
+
+    tim_outliers = tim7[msk1]
+
+    ## Removing outliers from the data
+    msk2 = np.ones(len(tims), dtype=bool)
+    for i in range(len(tim_outliers)):
+        msk2[np.where(tims == tim_outliers[i])[0]] = False
+    if verbose:
+        print('---- Total number of points removed: ', len(msk2) - np.sum(msk2))
+        print('---- Total per cent of point removed: {:.4f} %'.format((len(msk2) - np.sum(msk2))*100/len(msk2)))
+    return msk2
+
+def outlier_removal_ycen(ycen, clip=3.5):
+    sc = SigmaClip(sigma_upper=clip, sigma_lower=clip, stdfunc=mad_std, maxiters=None)
+    msk1 = sc(ycen).mask
+
+    loc_out = ycen[msk1]
+
+    msk2 = np.ones(len(ycen), dtype=bool)
+    for i in range(len(loc_out)):
+        msk2[np.where(ycen == loc_out[i])[0]] = False
+    return msk2
+
+def white_light_by_sum(lc, lc_err):
+    white_lc = np.sum(lc, axis=1)
+    white_err = np.sqrt(np.sum(lc_err**2, axis=1))
+    return white_lc, white_err
